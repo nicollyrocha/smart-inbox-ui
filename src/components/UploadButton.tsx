@@ -9,9 +9,26 @@ export const UploadButton = ({
   text?: string;
 }) => {
   const [currFile, setCurrFile] = useState<File | null>(null);
+  const [error, setError] = useState<string | null>(null);
+
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
+      // Validar tipo de arquivo
+      const allowedTypes = ["text/plain", "application/pdf"];
+      const allowedExtensions = [".txt", ".pdf"];
+      const fileExtension = "." + file.name.split(".").pop()?.toLowerCase();
+
+      if (
+        !allowedTypes.includes(file.type) &&
+        !allowedExtensions.includes(fileExtension)
+      ) {
+        setError("Apenas arquivos .txt e .pdf são permitidos");
+        e.target.value = ""; // Limpar input
+        return;
+      }
+
+      setError(null);
       setCurrFile(file);
       onUpload(file);
     }
@@ -29,12 +46,13 @@ export const UploadButton = ({
         Upload File
         <input
           type="file"
-          accept=".txt,.pdf"
+          accept=".txt,.pdf,text/plain,application/pdf"
           className="hidden"
           onChange={handleFileChange}
           disabled={!!text}
         />
       </label>
+      {error && <p className="text-sm text-red-600 mt-2">{error}</p>}
       <div>
         {currFile && (
           <span className="text-sm text-[#4B5563]">
