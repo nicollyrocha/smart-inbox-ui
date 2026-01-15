@@ -3,7 +3,7 @@ import { Card } from "./components/Card";
 import { TextArea } from "./components/TextArea";
 import { Button } from "./components/Button";
 import { UploadButton } from "./components/UploadButton";
-import { Loader2 } from "lucide-react";
+import { CircleCheck, Loader2, TriangleAlert } from "lucide-react";
 
 function App() {
   const [text, setText] = useState("");
@@ -62,7 +62,12 @@ function App() {
       <div className="flex flex-col gap-10 px-5 mb-10 md:px-0">
         <Card className="border-[#2563EB] shadow-md bg-[#DBEAFE] ">
           <div>Cole o email ou faça upload (.txt ou .pdf)</div>
-          <TextArea value={text} onChange={setText} file={file} />
+          <TextArea
+            value={text}
+            onChange={setText}
+            file={file}
+            placeholder="Digite aqui o conteúdo do email..."
+          />
           <UploadButton onUpload={(file) => setFile(file)} text={text} />
           <Button
             label={
@@ -86,8 +91,14 @@ function App() {
           >
             {result && (
               <>
-                <div>
-                  <strong>Categoria:</strong> {result.category.toUpperCase()}
+                <div className="flex gap-1 items-center">
+                  <strong>Categoria:</strong>{" "}
+                  {result.category === "produtivo" ? (
+                    <CircleCheck color="#16A34A" />
+                  ) : (
+                    <TriangleAlert color="#F59E0B" />
+                  )}
+                  {result.category.toUpperCase()}
                 </div>
                 <div>
                   <strong>Resposta:</strong> {result.response}
