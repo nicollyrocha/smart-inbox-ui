@@ -11,7 +11,7 @@ function App() {
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState<null | {
     category: string;
-    reply: string;
+    response: string;
   }>(null);
 
   const onSubmit = async () => {
@@ -90,7 +90,7 @@ function App() {
                   <strong>Categoria:</strong> {result.category.toUpperCase()}
                 </div>
                 <div>
-                  <strong>Resposta:</strong> {result.reply}
+                  <strong>Resposta:</strong> {result.response}
                 </div>
               </>
             )}
